@@ -1,10 +1,10 @@
 -- This query pivots the vital signs for the first 24 hours of a patient's stay
 -- Vital signs include heart rate, blood pressure, respiration rate, and temperature
 
-set search_path to mimiciii;
+set search_path to mimiciv, mimiciv_icu, mimiciv_hosp, mimiciv_derived;
 DROP MATERIALIZED VIEW IF EXISTS vitals CASCADE;
 create materialized view vitals as
-SELECT pvt.subject_id, pvt.hadm_id, pvt.icustay_id, pvt.charttime
+SELECT pvt.subject_id, pvt.hadm_id, pvt.stay_id, pvt.charttime
 
 -- Easier names
 -- Aggregate functions not really useful as there is one value per variable
@@ -53,7 +53,7 @@ FROM  (
 
   from icustays ie
   left join chartevents ce
-  on ie.subject_id = ce.subject_id and ie.hadm_id = ce.hadm_id and ie.icustay_id = ce.icustay_id
+  on ie.subject_id = ce.subject_id and ie.hadm_id = ce.hadm_id and ie.stay_id = ce.stay_id
   -- exclude rows marked as error
   and ce.error IS DISTINCT FROM 1
   where ce.itemid in
@@ -116,5 +116,5 @@ FROM  (
 
   )
 ) pvt
-group by pvt.subject_id, pvt.hadm_id, pvt.icustay_id, charttime
-order by pvt.subject_id, pvt.hadm_id, pvt.icustay_id, charttime;
+group by pvt.subject_id, pvt.hadm_id, pvt.stay_id, charttime
+order by pvt.subject_id, pvt.hadm_id, pvt.stay_id, charttime;
