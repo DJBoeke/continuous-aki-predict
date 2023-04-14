@@ -2,10 +2,11 @@
 
 -- Have already confirmed that the unit of measurement is always the same: null or the correct unit
 
+set search_path to mimiciv, mimiciv_icu, mimiciv_hosp, mimiciv_derived;
 DROP MATERIALIZED VIEW IF EXISTS labsfirstday CASCADE;
 CREATE materialized VIEW labs AS
 SELECT
-  pvt.subject_id, pvt.hadm_id, pvt.icustay_id, pvt.charttime
+  pvt.subject_id, pvt.hadm_id, pvt.stay_id, pvt.charttime
 
   , min(CASE WHEN label = 'ANION GAP' THEN valuenum ELSE null END) as ANIONGAP_min
   , max(CASE WHEN label = 'ANION GAP' THEN valuenum ELSE null END) as ANIONGAP_max
@@ -49,7 +50,7 @@ SELECT
 
 FROM
 ( -- begin query that extracts the data
-  SELECT ie.subject_id, ie.hadm_id, ie.icustay_id, charttime
+  SELECT ie.subject_id, ie.hadm_id, ie.stay_id, charttime
   -- here we assign labels to ITEMIDs
   -- this also fuses together multiple ITEMIDs containing the same data
   , CASE
