@@ -55,7 +55,7 @@ FROM  (
   left join chartevents ce
   on ie.subject_id = ce.subject_id and ie.hadm_id = ce.hadm_id and ie.stay_id = ce.stay_id
   -- exclude rows marked as error
-  and ce.error IS DISTINCT FROM 1
+  and ce.warning IS DISTINCT FROM 1
   where ce.itemid in
   (
   -- HEART RATE
