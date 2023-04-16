@@ -36,7 +36,7 @@ select
   , max(case
       when vd.stay_id is not null then 1
     else 0 end) as vent
-from mimiciv_icu.labs ie
+from mimiciv.labs ie
 left join mimiciv_derived.ventilation vd
   on ie.stay_id = vd.stay_id
   and
@@ -55,7 +55,7 @@ select
   , max(case
       when vd.stay_id is not null then 1
     else 0 end) as vent
-from mimiciv_icu.vitals ie
+from mimiciv.vitals ie
 left join mimiciv_derived.ventilation vd
   on ie.stay_id = vd.stay_id
   and
