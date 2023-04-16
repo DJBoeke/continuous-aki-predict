@@ -1,5 +1,5 @@
 -- extract icu stays with at least one measurement of creatinine or urine output into kdigo_stages_measured.csv
-set search_path to mimiciv_icu, mimiciv_hosp, mimiciv_derived;
+set search_path to mimiciv, mimiciv_icu, mimiciv_hosp, mimiciv_derived;
 
 COPY (SELECT * FROM kdigo_stages WHERE stay_id IN (SELECT stay_id FROM kdigo_stages WHERE (creat IS NOT NULL OR uo_rt_6hr IS NOT NULL OR uo_rt_12hr IS NOT NULL OR uo_rt_24hr IS NOT NULL) AND aki_stage IS NOT NULL GROUP BY stay_id HAVING COUNT(*) > 0 )) TO 'path/to/data/kdigo_stages_measured.csv' WITH CSV HEADER DELIMITER ';';
 
