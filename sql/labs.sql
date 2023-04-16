@@ -151,4 +151,4 @@ FROM
     )
     AND valuenum IS NOT null AND valuenum > 0 -- lab values cannot be 0 and cannot be negative
 ) pvt
-GROUP BY pvt.subject_id, pvt.hadm_id, pvt.icustay_id, charttime
+GROUP BY pvt.subject_id, pvt.hadm_id, pvt.stay_id, charttime
