@@ -2,7 +2,7 @@
 -- Creates a table with the result.
 -- Requires the `vasopressordurations` and `kdigo_stages`, `labs` and `vitals` table
 
-set search_path to mimiciv_icu, mimiciv_hosp, mimiciv_derived;
+set search_path to mimiciv, mimiciv_icu, mimiciv_hosp, mimiciv_derived;
 DROP MATERIALIZED VIEW IF EXISTS mimiciv.vasopressor_kdigo_stages_labs_vitals_charttime CASCADE;
 CREATE MATERIALIZED VIEW mimiciv.vasopressor_kdigo_stages_labs_vitals_charttime AS
 select *
